@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Humidity & Time Display55</title>
+    <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-database.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        #H_1 {
+            padding-top: 2px;
+            color: #7FE1E1;
+            font-size: 35px;
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+        }
+
+        .transparent-box {
+            width: 500px;
+            height: 450px;
+            background-color: rgba(102, 174, 222, 0.5);
+            padding: 20px;
+            border-radius: 17px;
+        }
+    </style>
+</head>
+<body style="background-image: url(wallpaper.png); background-size: 100%;">
+    <div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+        <div class="transparent-box">
+            <div class="content">
+                <center>
+                    <h1>Humidity & Time Display</h1>
+                    <p id="humidity">Humidity: Loading...</p>
+                    <p></p>
+                    <p id="Solenoid">Solenoid: Loading...</p>
+                    <p></p>
+                    <p id="time">Current Time: Loading...</p>
+
+                    <label for="timeInput">Set Time:</label>
+                    <input type="time" id="timeInput" placeholder="Select time">
+                    <button id="saveTimeButton">Save Time</button><br><br>
+
+                    <label for="boardSelect">Choose Board:</label>
+                    <select id="boardSelect">
+                        <option value="Select">Select</option>
+                        <option value="board 1st">board 1st</option>
+                        <option value="board 2nd">board 2nd</option>
+                    </select>
+                    <br><br>
+
+                    <br><br>
+                    <button id="clearInputButton">Clear Input</button>
+                    <button id="resetDataButton">Reset Data</button>
+                </center>
+                <script>
+                    // (โค้ด JavaScript ที่เหลือนี้ไม่มีการเปลี่ยนแปลง)
+                </script>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
