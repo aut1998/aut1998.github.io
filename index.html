@@ -2,166 +2,204 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Humidity & Time Display</title>
     <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-database.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        #H_1 {
-            padding-top: 2px;
-            color: #7FE1E1;
-            font-size: 35px;
-            font-family: Arial, Helvetica, sans-serif;
-            text-align: center;
+    
+    
+    <style type="text/css"  > 
+
+        
+
+        .number {
+            
+            text-align: left;
+            font-size: 14;
+            line-height: 18px;
+            color: black;
+        
+    }
+
+        body{text-align:center}
+
+        body {
+            font-family: Arial, sans-serif;
         }
 
-        .transparent-box {
-            width: 500px;
-            height: 450px;
-            background-color: rgba(102, 174, 222, 0.5);
-            padding: 20px;
-            border-radius: 17px;
+        .parking-floor {
+            
+            margin-bottom: 20px;
+        }
+
+        .parking-spot {
+            display: inline-block;
+            width: 60px; /* ปรับความกว้างตามต้องการ */
+            height: 60px; /* ปรับความสูงตามต้องการ */
+            margin: 5px;
+            border: 1px solid #333;
+            background-color: #eee;
+            cursor: pointer;
+            /* text-align:  ; */
+            line-height: 60px; /* ปรับให้ตัวเลขอยู่ตรงกลาง */
+            font-size: 18px; /* ปรับขนาดตัวเลขตามต้องการ */
+            background-image: url('a.jpg'); /* เปลี่ยนเป็นที่อยู่ของรูปภาพที่คุณต้องการ */
+            background-size: cover;
+            color: transparent;
+        }
+
+        .occupied {
+            background-image: url('a.jpg');
+            background-size: cover;
+        }
+
+        .vacant {
+            background-image: url('b.jpg');
+            background-size: cover;
         }
     </style>
+    <title>Parking Status</title>
 </head>
-<body style="background-image: url(wallpaper.png); background-size: 100%;">
-    <div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
-        <div class="transparent-box">
-            <div class="content">
-                <center>
-                    <h1>Humidity & Time Display</h1>
-                    <p id="humidity">Humidity: Loading...</p>
-                    <p></p>
-                    <p id="Solenoid">Solenoid: Loading...</p>
-                    <p></p>
-                    <p id="time">Current Time: Loading...</p>
-                    <p></p>
-                    <p id="set_time">Set Time: Loading...</p>
+<body>
 
-                    <label for="timeInput">Set Time:</label>
-                    <input type="time" id="timeInput" placeholder="Select time">
-                    <button id="saveTimeButton">Save Time</button><br><br>
+    <div class="container">
+        
 
-                    <label for="boardSelect">Choose Board:</label>
-                    <select id="boardSelect">
-                        <option value="Select">Select</option>
-                        <option value="board 1st">board 1st</option>
-                        <option value="board 2nd">board 2nd</option>
-                    </select>
-                    <br><br>
+    <div class="parking-floor">
+        <h2>Floor 1</h2>
+        
+        <div class="parking-spot" id="floor1_spot1"><div class="number">1</div></div>
+        <div class="parking-spot" id="floor1_spot2"><div class="number">2</div></div>
+        <div class="parking-spot" id="floor1_spot3"><div class="number">3</div></div>
+        <div class="parking-spot" id="floor1_spot4"><div class="number">4</div></div>
+        <div class="parking-spot" id="floor1_spot5"><div class="number">5</div></div>
+        <div class="parking-spot" id="floor1_spot6"><div class="number">6</div></div>
+        <div class="parking-spot" id="floor1_spot7"><div class="number">7</div></div>
+        <div class="parking-spot" id="floor1_spot8"><div class="number">8</div></div>
+        <div class="parking-spot" id="floor1_spot9"><div class="number">9</div></div>
+        <div class="parking-spot" id="floor1_spot10"><div class="number">10</div></div>
+        <div class="parking-spot" id="floor1_spot11"><div class="number">11</div></div>
+        <div class="parking-spot" id="floor1_spot12"><div class="number">12</div></div>
+        <div class="parking-spot" id="floor1_spot13"><div class="number">13</div></div>
+        <div class="parking-spot" id="floor1_spot14"><div class="number">14</div></div>
+        <div class="parking-spot" id="floor1_spot15"><div class="number">15</div></div>
+        <div class="parking-spot" id="floor1_spot16"><div class="number">16</div></div>
+        <h2>Floor 2</h2>
+        <div class="parking-spot" id="floor2_spot17"><div class="number">17</div></div>
+        <div class="parking-spot" id="floor2_spot18"><div class="number">18</div></div>
+        <div class="parking-spot" id="floor2_spot19"><div class="number">19</div></div>
+        <div class="parking-spot" id="floor2_spot20"><div class="number">20</div></div>
+        <div class="parking-spot" id="floor2_spot21"><div class="number">21</div></div>
+        <div class="parking-spot" id="floor2_spot22"><div class="number">22</div></div>
+        <div class="parking-spot" id="floor2_spot23"><div class="number">23</div></div>
+        <div class="parking-spot" id="floor2_spot24"><div class="number">24</div></div>
+        <div class="parking-spot" id="floor2_spot25"><div class="number">25</div></div>
+        <div class="parking-spot" id="floor2_spot26"><div class="number">26</div></div>
+        <div class="parking-spot" id="floor2_spot27"><div class="number">27</div></div>
+        <div class="parking-spot" id="floor2_spot28"><div class="number">28</div></div>
+        <div class="parking-spot" id="floor2_spot29"><div class="number">29</div></div>
+        <div class="parking-spot" id="floor2_spot30"><div class="number">30</div></div>
+        <div class="parking-spot" id="floor2_spot31"><div class="number">31</div></div>
+        <div class="parking-spot" id="floor2_spot32"><div class="number">32</div></div>
+        
+        
+        <h2>Floor 3</h2>
+        <div class="parking-spot" id="floor3_spot33"><div class="number">33</div></div>
+        <div class="parking-spot" id="floor3_spot34"><div class="number">34</div></div>
+        <div class="parking-spot" id="floor3_spot35"><div class="number">35</div></div>
+        <div class="parking-spot" id="floor3_spot36"><div class="number">36</div></div>
+        <div class="parking-spot" id="floor3_spot37"><div class="number">37</div></div>
+        <div class="parking-spot" id="floor3_spot38"><div class="number">38</div></div>
+        <div class="parking-spot" id="floor3_spot39"><div class="number">39</div></div>
+        <div class="parking-spot" id="floor3_spot40"><div class="number">40</div></div>
+        <div class="parking-spot" id="floor3_spot41"><div class="number">41</div></div>
+        <div class="parking-spot" id="floor3_spot42"><div class="number">42</div></div>
+        <div class="parking-spot" id="floor3_spot43"><div class="number">43</div></div>
+        <div class="parking-spot" id="floor3_spot44"><div class="number">44</div></div>
+        <div class="parking-spot" id="floor3_spot45"><div class="number">45</div></div>
+        <div class="parking-spot" id="floor3_spot46"><div class="number">46</div></div>
+        <div class="parking-spot" id="floor3_spot47"><div class="number">47</div></div>
+        <div class="parking-spot" id="floor3_spot48"><div class="number">48</div></div>
 
-                    <br><br>
-                </center>
-                <script>
-                    const firebaseConfig = {
-                        apiKey: "AIzaSyAZYMchGmLJoDj3YDOuTyZvERlI2pvm7Vs",
-                        authDomain: "esp8266-934e5.firebaseapp.com",
-                        databaseURL: "https://esp8266-934e5-default-rtdb.firebaseio.com",
-                        projectId: "esp8266-934e5",
-                        storageBucket: "esp8266-934e5.appspot.com",                        
-                        };
-
-                    // Initialize Firebase
-                    firebase.initializeApp(firebaseConfig);
-                    const db = firebase.database();
-
-                    // Function to update humidity value based on Firebase data
-                    function updateHumidity() {
-                        const humidityElement = document.querySelector('#humidity');
-                        const SolenoidV = document.querySelector('#Solenoid');
-                        const set_time_E =document.querySelector('#set_time')
-                        const selectedBoard = document.querySelector('#boardSelect').value;
-                        if ( selectedBoard != "Select")
-                        {
-                            db.ref(selectedBoard+"/HUM").once('value', (snapshot) => {
-                                const humidityValue = snapshot.val();
-                                humidityElement.textContent = `Humidity: ${humidityValue}%`;
-                            });
-                            db.ref(selectedBoard+"/SW").once('value', (snapshot) => {
-                                if ( snapshot.val() == "1" ) {SolenoidV.textContent = `Solenoid: ON`;} 
-                                else { SolenoidV.textContent = `Solenoid: OFF`;}
-                            });
-                            db.ref(selectedBoard+"/time").once('value', (snapshot) => {
-                                const set_time_Value = snapshot.val();
-                                set_time_E.textContent = `Set Time: ${set_time_Value}`;
-                            });
-                        }
-                                               
-                        
-                    }
-
-                    // Function to update current time
-                    function updateTime() {
-                        const timeElement = document.querySelector('#time');
-                        const currentTime = new Date();
-                        const hours = currentTime.getHours();
-                        const minutes = currentTime.getMinutes();
-                        const seconds = currentTime.getSeconds();
-                        const formattedTime = `Current Time: ${hours}:${minutes}:${seconds}`;
-                        timeElement.textContent = formattedTime;
-                    }
-
-                    function saveTimeToFirebase() {
-                        const timeInput = document.querySelector('#timeInput').value;
-                        const selectedBoard = document.querySelector('#boardSelect').value;
-                        
-                        if ( selectedBoard != "Select"){
-
-                            const ref = db.ref(selectedBoard ); // สร้าง reference ไปยังโหนดที่ต้องการอัปเดต
-
-                            ref.update({
-                                time: timeInput
-                            })
-                            .then(() => {
-                                console.log("Data updated successfully!");
-                            })
-                            .catch((error) => {
-                                console.error("Error updating data:", error);
-                            });
-                                    }   
-                    }
-
-                        
-                    function confirmBoard() {
-                        const selectedBoard = document.querySelector('#boardSelect').value;
-                        console.log(`Board ${selectedBoard} confirmed!`);
-                        // Add your logic here for what to do after board confirmation
-                    }
-
-                    // Function to reset all data
-                    function resetAllData() {
-                        const selectedBoard = document.querySelector('#boardSelect').value;
-                        db.ref(selectedBoard).remove();
-                        console.log(`Data for Board ${selectedBoard} has been reset!`);
-                    }
-
-                    // Function to clear input field
-                    function clearInput() {
-                        document.querySelector('#timeInput').value = ''; // Clears the input field
-                    }
-
-                    document.addEventListener('DOMContentLoaded', function() {
-                        updateHumidity(); // Initial call to fetch and display humidity
-                        updateTime(); // Initial call to display current time
-
-                        setInterval(updateHumidity, 400); // Update humidity every 5 seconds
-                        setInterval(updateTime, 1000); // Update time every second
-
-                        const saveTimeButton = document.querySelector('#saveTimeButton');
-                        saveTimeButton.addEventListener('click', saveTimeToFirebase);
-
-                        const resetDataButton = document.querySelector('#resetDataButton');
-                        resetDataButton.addEventListener('click', resetAllData);
-
-                        const confirmBoardButton = document.querySelector('#confirmBoardButton');
-                        confirmBoardButton.addEventListener('click', confirmBoard);
-                        
-                        const clearInputButton = document.querySelector('#clearInputButton');
-                        clearInputButton.addEventListener('click', clearInput); // Event listener for clear input button
-                    });
-                </script>
-            </div>
-        </div>
+        
     </div>
+    
+
+    <!-- เพิ่มช่องจอดรถในชั้นที่ 2 และ 3 ตามที่ต้องการ -->
+
+    <script>
+     
+        const firebaseConfig = {
+                    apiKey: "AIzaSyCG5l5vIxw7Ovi9lqkki7tnDBq9UQQCUNU",
+                    authDomain: "zzzz-87603.firebaseapp.com",
+                    databaseURL: "https://zzzz-87603-default-rtdb.firebaseio.com",
+                    projectId: "zzzz-87603",
+                    storageBucket: "zzzz-87603.appspot.com",
+                    };
+        
+
+
+        // สร้างตัวแปรสถานะตั้งต้น
+        var parkingStatus = {
+            floor1_spot1: 1,
+            floor1_spot2: 0,
+            floor1_spot3: 1,
+            floor1_spot4: 1,
+            floor1_spot5: 0,
+            floor1_spot6: 1,
+            floor1_spot7: 0,
+            floor1_spot8: 1,
+            floor1_spot9: 0,
+            floor1_spot10: 0,
+
+            floor2_spot1: 0,
+            floor2_spot2: 0,
+            floor2_spot3: 0,
+            floor2_spot4: 0,
+            floor2_spot5: 0,
+            floor2_spot6: 0,
+            floor2_spot7: 0,
+            floor2_spot8: 0,
+            floor2_spot9: 0,
+            floor2_spot10: 0,
+
+            floor3_spot1: 0,
+            floor3_spot2: 0,
+            floor3_spot3: 0,
+            floor3_spot4: 0,
+            floor3_spot5: 0,
+            floor3_spot6: 0,
+            floor3_spot7: 0,
+            floor3_spot8: 0,
+            floor3_spot9: 0,
+            floor3_spot10: 0,
+            // เพิ่มตำแหน่งของช่องจอดรถในชั้นอื่น ๆ ตามที่ต้องการ
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        // กำหนดสถานะเริ่มต้น
+        setParkingStatus();
+
+        // ฟังก์ชันในการตั้งค่าสถานะ
+        function setParkingStatus() {
+
+            
+            var spotIds = Object.keys(parkingStatus);
+
+            for (let i = 0; i < spotIds.length; i++) {
+                let spotId = spotIds[i];
+                db.ref(spotId).once('value', (snapshot) => {
+                    parkingStatus[spotId] = snapshot.val(); // ดึงข้อมูลจาก Firebase
+                    var spot = document.getElementById(spotId);
+                    var status = parkingStatus[spotId] === 1 ? 'vacant' : 'occupied';
+                    spot.classList.remove('vacant', 'occupied');
+                    spot.classList.add(status);
+                });
+            }
+        }
+        setInterval(setParkingStatus, 1000);
+    </script>
+
 </body>
 </html>
