@@ -8,67 +8,184 @@
     <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-database.js"></script>
     <style>
+
+        #H {
+            /* display: flex; กำหนดให้ div เป็น flexbox */
+            align-items: center;/* กำหนดให้เนื้อหาภายใน flexbox อยู่ตรงกลางแนวตั้ง */
+            /* background-color: rgba(255, 255, 255, 0.654); กำหนดสีพื้นหลังเป็นสีขาว โปร่งแสง 80% */
+            /* padding-top: 10px; /* กำหนด padding ของกล่อง */
+            /* padding-left: 20px;  */
+            border: 1px solid #4b4b4b; /* กำหนดเส้นขอบ */
+            border-radius: 5px; /* กำหนดมุมโค้งมน */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); 
+            /* justify-content: space-between; */
+            }
+
+        #H.OFF {
+            background-color: rgba(255, 34, 0, 0.603);
+        }
+        #H.ON {
+            background-color: rgba(164, 255, 45, 0.654);
+        }
+
         #H_1{
-            padding-top: 2px;
-            color: #7FE1E1;  
-            font-size: 35px; 
+
+            
+            border-top: 1px; 
+            color: #000000;  
+            font-size: 40px; 
             font-family: Arial, Helvetica, sans-serif;
             text-align: center;
+         
         }
-        #SW_1{
-            margin-top: 30% ;
-            width: 25%;
-            height: 60px;
-            border-radius: 10px ;
 
+        #SW_2,#SW_1{
+            /* margin-top: 5%; */
+            width: 25%;
+            height: 50px;
+            border-radius: 50px ;
             border: solid 0.1px ;
-            background-color: #6666ff;
+            /* background-image: url(da.jpg); */
+            /* background-color: #6666ff; */
             font-size: 20px;
             font-family: Arial, Helvetica, sans-serif;
             text-align: center;
             font-weight: bold;
+        }
+        
+        #SW_1.ON, #SW_2.ON {
+            background-color: #6666ff;
+        }
+
+        #SW_1.OFF, #SW_2.OFF {
+            background-color: #000000;
+        }
+
+        #SW_1.ON, #SW_1.OFF, #SW_2.ON, #SW_2.OFF {
+            color: rgb(255, 246, 246);
+        }
+
+        #body_1 {
+            background-image: url(แปลงผัก1.jpeg);
+            background-repeat: no-repeat; /* Prevent tiling */
+            background-attachment: fixed; /* Keep image fixed on scroll */
+            background-size: cover; /* Resize to fill container */
+        }
+
+        .box {
+
+            background-color: rgba(255, 255, 255, 0.654); /* กำหนดสีพื้นหลังเป็นสีขาว โปร่งแสง 80% */
+            padding: 1px; /* กำหนด padding ของกล่อง */
+            border: 1px solid #4b4b4b; /* กำหนดเส้นขอบ */
+            border-radius: 5px; /* กำหนดมุมโค้งมน */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); 
+
+            height: 400px;
             
         }
-        #SW_1.ON{
-            background-color:  #6666ff;
-            color: aliceblue;
-        }
-        #SW_1.OFF{
-            background-color:  #000000;
-            color: aliceblue;
-        }
 
-        #SW_2{
-            margin-top: 5%;
-            width: 25%;
-            height: 60px;
-            border-radius: 10px ;
-            border: solid 0.1px ;
-            background-color: #6666ff;
-            font-size: 20px;
-            font-family: Arial, Helvetica, sans-serif;
-            text-align: center;
-            font-weight: bold;
-        }
-        #SW_2.ON{
-            background-color: #6666ff;
-            color: aliceblue;
-        }
-        #SW_2.OFF{
-            background-color: #000000;
-            color: aliceblue;
-        }
+
     
     </style>
 </head>
-<body style="background-image: url(da.jpg) ; background-size: 100%;">
+
+
+<div id = "H">  
+    <p id = "H_1"> Loading...  </p>     
+
+</div><p></p>
+
+<div class="box">
+    <body id = "body_1">
+        
+        <div style="text-align: center; margin-top: 20%; ">
+            <button id = "SW_1"></button><br><br>
+            <button id = "SW_2"></button>
+        </div>
     
-    <h1 id="H_1">   Loading...      </h1>
-    <div style="text-align: center;">
-        <button id = "SW_1"></button><br><br>
-        <button id = "SW_2"></button>
-    </div>
-    <script src="main.js"></script>
-    
-</body>
+
+
+
+        <script >
+            const firebaseConfig = {
+                apiKey: "AIzaSyAZYMchGmLJoDj3YDOuTyZvERlI2pvm7Vs",
+                authDomain: "esp8266-934e5.firebaseapp.com",
+                databaseURL: "https://esp8266-934e5-default-rtdb.firebaseio.com",
+                projectId: "esp8266-934e5",
+                storageBucket: "esp8266-934e5.appspot.com", 
+            };
+            firebase.initializeApp(firebaseConfig);
+            const db = firebase.database();
+
+            let DP_ON = "เปิดจ้า" ;
+            let DP_OFF = "ดับแล้ว" ;
+
+            const SW_1 = document.querySelector('#SW_1');
+            const SW_2 = document.querySelector('#SW_2');
+            const LINK = document.querySelector('#H');
+
+            function update_DATA() {
+                db.ref('LINK').once('value',(snapshot) => {
+                    const newValue = snapshot.val();
+                    LINK.classList.toggle('ON', newValue === 1);
+                    LINK.classList.toggle('OFF', newValue === 0);
+                    // LINK.innerHTML = newValue === 1 ? DP_ON : DP_OFF ;
+                });
+                db.ref('SO_1').once('value',(snapshot) => {
+                    const newValue = snapshot.val();
+                    SW_1.classList.toggle('ON', newValue === 1);
+                    SW_1.classList.toggle('OFF', newValue === 0);
+                    SW_1.innerHTML = newValue === 1 ? DP_ON : DP_OFF ;
+                });
+
+                db.ref('SO_2').once('value',(snapshot) => {
+                    const newValue = snapshot.val();
+                    SW_2.classList.toggle('ON', newValue === 1);
+                    SW_2.classList.toggle('OFF', newValue === 0);
+                    SW_2.innerHTML = newValue === 1 ? DP_ON : DP_OFF ;
+                });
+            }
+
+            SW_1.addEventListener('click', (event) => {
+                db.ref('SO_1').once('value',(snapshot) => {
+                    const currentValue = snapshot.val();
+                    const newValue = !currentValue ? 1:0 ;
+                    db.ref('SO_1').set(newValue);
+                    SW_1.classList.toggle('ON', newValue === 1);
+                    SW_1.classList.toggle('OFF', newValue === 0);
+                    SW_1.innerHTML = newValue === 1 ? DP_ON : DP_OFF;    
+                });
+                
+            });
+
+
+            SW_2.addEventListener('click', (event) => {
+                db.ref('SO_2').once('value',(snapshot) => {
+                    const currentValue = snapshot.val();
+                    const newValue1 = !currentValue ? 1:0 ;
+                    db.ref('SO_2').set(newValue1);
+                    SW_2.classList.toggle('ON', newValue1 === 1);
+                    SW_2.classList.toggle('OFF', newValue1 === 0);
+                    SW_2.innerHTML = newValue1 === 1 ? DP_ON : DP_OFF;
+                });
+                
+            });
+
+            function updateTime() {
+                const timeElement = document.querySelector('#H_1');
+                const currentTime = new Date();
+                const hours = currentTime.getHours().toString().padStart(2, '0');
+                const minutes = currentTime.getMinutes().toString().padStart(2, '0');
+                const seconds = currentTime.getSeconds().toString().padStart(2, '0');
+                const formattedTime = `${hours}:${minutes}:${seconds}`;
+                timeElement.textContent = formattedTime;
+            }
+
+            setInterval(update_DATA, 700);
+            setInterval(updateTime, 700);
+        </script>
+        
+    </body>
+</div>
+  
 </html>
