@@ -158,4 +158,3 @@ function updateTime() {
 
 setInterval(update_DATA, 700);
 setInterval(updateTime, 700);
-// setInterval(update_TIME, 700);
