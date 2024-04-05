@@ -21,11 +21,12 @@
             /* justify-content: space-between; */
             }
 
+         #H.ON {
+            background-color: rgba(164, 255, 45, 0.654);
+        }
+       
         #H.OFF {
             background-color: rgba(255, 34, 0, 0.603);
-        }
-        #H.ON {
-            background-color: rgba(164, 255, 45, 0.654);
         }
 
         #H_1{
@@ -41,7 +42,7 @@
 
         #SW_2,#SW_1{
             /* margin-top: 5%; */
-            width: 25%;
+            width: 30%;
             height: 50px;
             border-radius: 50px ;
             border: solid 0.1px ;
@@ -51,6 +52,8 @@
             font-family: Arial, Helvetica, sans-serif;
             text-align: center;
             font-weight: bold;
+            margin-left: 20px ;
+            margin-right: 20px ;
         }
         
         #SW_1.ON, #SW_2.ON {
@@ -80,10 +83,32 @@
             border-radius: 5px; /* กำหนดมุมโค้งมน */
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); 
 
-            height: 400px;
+            /* height: 400px; */
             
         }
 
+        .box_s {
+
+            background-color: rgba(255, 255, 255, 0.654); /* กำหนดสีพื้นหลังเป็นสีขาว โปร่งแสง 80% */
+            padding: 1px; /* กำหนด padding ของกล่อง */
+            border: 1px solid #4b4b4b; /* กำหนดเส้นขอบ */
+            border-radius: 5px; /* กำหนดมุมโค้งมน */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); 
+            /* width: 49%; */
+            height: 150px;
+            /* margin-left: 100px; */
+            /* display: flex; */
+            /* justify-content: space-between; */
+            align-items: center; /* กำหนดให้เนื้อหาภายใน flexbox อยู่ตรงกลางแนวตั้ง */
+        }
+
+        .label_box{
+            display: block;  
+            margin-top: 10px;  
+            margin-left: 2%;
+
+        }
+        
 
     
     </style>
@@ -95,97 +120,63 @@
 
 </div><p></p>
 
-<div class="box">
-    <body id = "body_1">
-        
-        <div style="text-align: center; margin-top: 20%; ">
-            <button id = "SW_1"></button><br><br>
-            <button id = "SW_2"></button>
+
+<body id = "body_1">
+    <div >
+        <div class="box_s"> 
+            
+            
+            <label for="SW_1" class="label_box" >ช่องที่ 1</label>
+            <button id="SW_1" title="ช่องที่ 1"></button>
+            
+            <label for="time" style="margin-left: 20px; margin-right: 20px; margin-top: 10px; margin-bottom: 15px;" >เวลาเปิด</label>
+            <input type="time" id="time_on1" placeholder="Select time">
+            <label for="time" style="margin-left: 20px; margin-right: 20px; margin-top: 10px; margin-bottom: 15px;">เวลาปิด</label>
+            <input type="time" id="time_off1" placeholder="Select time">
+                
+          
+        </div>    
+        <div class="box_s">    
+               
+            <label for="SW_1" class="label_box" >ช่องที่ 2</label>
+            <button id="SW_2" title="ช่องที่ 2"></button>
+
+            <label for="time" style="margin-left: 20px; margin-right: 20px; margin-top: 10px; margin-bottom: 15px;" >เวลาเปิด</label>
+            <input type="time" id="time_on2" placeholder="Select time">
+            <label for="time" style="margin-left: 20px; margin-right: 20px; margin-top: 10px; margin-bottom: 15px;">เวลาปิด</label>
+            <input type="time" id="time_off2" placeholder="Select time">
+                
         </div>
-    
-
-
-
-        <script >
-            const firebaseConfig = {
-                apiKey: "AIzaSyAZYMchGmLJoDj3YDOuTyZvERlI2pvm7Vs",
-                authDomain: "esp8266-934e5.firebaseapp.com",
-                databaseURL: "https://esp8266-934e5-default-rtdb.firebaseio.com",
-                projectId: "esp8266-934e5",
-                storageBucket: "esp8266-934e5.appspot.com", 
-            };
-            firebase.initializeApp(firebaseConfig);
-            const db = firebase.database();
-
-            let DP_ON = "เปิดจ้า" ;
-            let DP_OFF = "ดับแล้ว" ;
-
-            const SW_1 = document.querySelector('#SW_1');
-            const SW_2 = document.querySelector('#SW_2');
-            const LINK = document.querySelector('#H');
-
-            function update_DATA() {
-                db.ref('LINK').once('value',(snapshot) => {
-                    const newValue = snapshot.val();
-                    LINK.classList.toggle('ON', newValue === 1);
-                    LINK.classList.toggle('OFF', newValue === 0);
-                    // LINK.innerHTML = newValue === 1 ? DP_ON : DP_OFF ;
-                });
-                db.ref('SO_1').once('value',(snapshot) => {
-                    const newValue = snapshot.val();
-                    SW_1.classList.toggle('ON', newValue === 1);
-                    SW_1.classList.toggle('OFF', newValue === 0);
-                    SW_1.innerHTML = newValue === 1 ? DP_ON : DP_OFF ;
-                });
-
-                db.ref('SO_2').once('value',(snapshot) => {
-                    const newValue = snapshot.val();
-                    SW_2.classList.toggle('ON', newValue === 1);
-                    SW_2.classList.toggle('OFF', newValue === 0);
-                    SW_2.innerHTML = newValue === 1 ? DP_ON : DP_OFF ;
-                });
-            }
-
-            SW_1.addEventListener('click', (event) => {
-                db.ref('SO_1').once('value',(snapshot) => {
-                    const currentValue = snapshot.val();
-                    const newValue = !currentValue ? 1:0 ;
-                    db.ref('SO_1').set(newValue);
-                    SW_1.classList.toggle('ON', newValue === 1);
-                    SW_1.classList.toggle('OFF', newValue === 0);
-                    SW_1.innerHTML = newValue === 1 ? DP_ON : DP_OFF;    
-                });
-                
-            });
-
-
-            SW_2.addEventListener('click', (event) => {
-                db.ref('SO_2').once('value',(snapshot) => {
-                    const currentValue = snapshot.val();
-                    const newValue1 = !currentValue ? 1:0 ;
-                    db.ref('SO_2').set(newValue1);
-                    SW_2.classList.toggle('ON', newValue1 === 1);
-                    SW_2.classList.toggle('OFF', newValue1 === 0);
-                    SW_2.innerHTML = newValue1 === 1 ? DP_ON : DP_OFF;
-                });
-                
-            });
-
-            function updateTime() {
-                const timeElement = document.querySelector('#H_1');
-                const currentTime = new Date();
-                const hours = currentTime.getHours().toString().padStart(2, '0');
-                const minutes = currentTime.getMinutes().toString().padStart(2, '0');
-                const seconds = currentTime.getSeconds().toString().padStart(2, '0');
-                const formattedTime = `${hours}:${minutes}:${seconds}`;
-                timeElement.textContent = formattedTime;
-            }
-
-            setInterval(update_DATA, 700);
-            setInterval(updateTime, 700);
-        </script>
         
-    </body>
-</div>
+    </div>
+
+    <div class="box_s">
+
+        <div style="display: flex; justify-content: center; margin-top: 50px; height: 45px; ">
+            <input type="text" id="TextInput" placeholder="ป้อนคำสั่ง" style="width: 200px; text-align: center;">
+        </div>
+
+    </div>
+
+    <!-- <div class="box">     
+        <div style="text-align: center; margin-top: 20%; ">
+
+            <div> 
+            <label for="timeInput">Set Time:</label> 
+            <input type="time" id="timeInput_1" placeholder="Select time">
+            <button id="saveTimeButton">Save Time</button>
+            
+            </div>
+            <br><br>
+            <div>
+            <label for="timeInput">Set Time:</label> 
+            <input type="time" id="timeInput_2" placeholder="Select time">
+            <p id="ddd">ff</p>
+            </div>
+            
+        </div>        
+    </div>         -->
+</body>
+<script src="main.js"></script>
   
 </html>
